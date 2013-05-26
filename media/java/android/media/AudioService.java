@@ -2567,7 +2567,7 @@ public class AudioService extends IAudioService.Stub {
         // devices (tablets) include media stream in silent mode whereas phones don't.
         ringerModeAffectedStreams = Settings.System.getIntForUser(mContentResolver,
                 Settings.System.MODE_RINGER_STREAMS_AFFECTED,
-                ((1 << AudioSystem.STREAM_RING)|(1 << AudioSystem.STREAM_NOTIFICATION)|
+                ((1 << AudioSystem.STREAM_RING)|
                  (1 << AudioSystem.STREAM_SYSTEM)|(1 << AudioSystem.STREAM_SYSTEM_ENFORCED)),
                  UserHandle.USER_CURRENT);
 
