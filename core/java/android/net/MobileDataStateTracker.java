@@ -412,6 +412,9 @@ public class MobileDataStateTracker extends BaseNetworkStateTracker {
         case TelephonyManager.NETWORK_TYPE_HSPAP:
             networkTypeStr = "hspap";
             break;
+        case TelephonyManager.NETWORK_TYPE_DCHSPAP:
+            networkTypeStr = "hspap";
+            break;
         case TelephonyManager.NETWORK_TYPE_CDMA:
             networkTypeStr = "cdma";
             break;
