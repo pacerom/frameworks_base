@@ -34,6 +34,8 @@ import com.android.systemui.statusbar.GestureRecorder;
 public class NotificationPanelView extends PanelView {
     public static final boolean DEBUG_GESTURES = true;
 
+    private static final float FLIP_PERCENT = 0.80f;
+
     Drawable mHandleBar;
     int mHandleBarHeight;
     View mHandleView;
@@ -116,7 +118,8 @@ public class NotificationPanelView extends PanelView {
             switch (event.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
                     mOkToFlip = getExpandedHeight() == 0;
-                    if (mStatusBar.skipToSettingsPanel()) {
+                    if (mStatusBar.skipToSettingsPanel() ||
+                            (event.getX(0) > getWidth() * FLIP_PERCENT)) {
                         shouldFlip = true;
                     }
                     break;
