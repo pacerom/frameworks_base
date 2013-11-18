@@ -133,7 +133,7 @@ class TelephonyIcons {
 
     static final int[] QS_DATA_H = {
                 R.drawable.ic_qs_signal_h,
-                R.drawable.ic_qs_signal_full_h
+                R.drawable.ic_qs_signal_full_h };
 
     //HPSPA+
     static final int[][] DATA_HP = {

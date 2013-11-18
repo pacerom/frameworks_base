@@ -456,8 +456,6 @@ public final class HeaderSet {
     public Object getHeader(int headerID) throws IOException {
 
         switch (headerID) {
-            case CONNECTION_ID:
-                return mConnectionID;
             case COUNT:
                 return mCount;
             case NAME:

@@ -187,6 +187,7 @@ public class Tethering extends INetworkManagementEventObserver.Stub {
         int ifaceTypes[] = mContext.getResources().getIntArray(
                 com.android.internal.R.array.config_tether_upstream_types);
         Collection<Integer> upstreamIfaceTypes = new ArrayList();
+/*
         IBinder b = ServiceManager.getService(Context.CONNECTIVITY_SERVICE);
         IConnectivityManager cm = IConnectivityManager.Stub.asInterface(b);
         try {
@@ -199,6 +200,7 @@ public class Tethering extends INetworkManagementEventObserver.Stub {
         } catch (Exception e) {
             Log.d(TAG, "Exception adding default nw to upstreamIfaceTypes: " + e);
         }
+*/
         for (int i : ifaceTypes) {
             if(!upstreamIfaceTypes.contains(new Integer(i))) {
                 upstreamIfaceTypes.add(new Integer(i));
