@@ -2791,4 +2791,26 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode {
             ((DemoMode)v).dispatchDemoCommand(command, args);
         }
     }
+
+    public boolean skipToSettingsPanel() {
+        if (mPile == null || mNotificationData == null)
+            return false;
+
+        int N = mNotificationData.size();
+        int thisUsersNotifications = 0;
+        for (int i = 0; i < N; i++) {
+            Entry ent = mNotificationData.get(N-i-1);
+            if (ent != null
+                    && ent.notification != null
+                    && notificationIsForCurrentUser(ent.notification)) {
+                switch (ent.notification.getId()) {
+                    // ignore adb icon
+                    case com.android.internal.R.drawable.stat_sys_adb:
+                        continue;
+                }
+                thisUsersNotifications++;
+            }
+        }
+        return (thisUsersNotifications == 0);
+    }
 }
