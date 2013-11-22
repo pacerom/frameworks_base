@@ -2631,6 +2631,12 @@ public final class Settings {
         public static final String SETTINGS_CLASSNAME = Secure.SETTINGS_CLASSNAME;
 
         /**
+         * Key to store Torch state
+         * @hide
+         */
+        public static final String TORCH_STATE = "torch_state";
+
+        /**
          * @deprecated Use {@link android.provider.Settings.Global#USB_MASS_STORAGE_ENABLED} instead
          */
         @Deprecated
