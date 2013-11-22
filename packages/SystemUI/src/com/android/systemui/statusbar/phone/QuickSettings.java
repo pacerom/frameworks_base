@@ -607,6 +607,32 @@ class QuickSettings {
             parent.addView(bluetoothTile);
         }
 
+        // Torch
+        if (mModel.deviceSupportsTorch()
+                || DEBUG_GONE_TILES) {
+            final QuickSettingsBasicTile torchTile
+                    = new QuickSettingsBasicTile(mContext);
+            torchTile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent("android.intent.action.MAIN");
+                    intent.setComponent(ComponentName.unflattenFromString("com.pacerom.Torch/.TorchActivity"));
+                    intent.addCategory("android.intent.category.LAUNCHER");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(intent);
+                }
+            });
+            mModel.addTorchTile(torchTile, new QuickSettingsModel.RefreshCallback() {
+                @Override
+                public void refreshView(QuickSettingsTileView unused, State state) {
+                    torchTile.setImageResource(state.iconId);
+                    //XXX: torchTile.setContentDescription
+                    torchTile.setText(state.label);
+                }
+            });
+            parent.addView(torchTile);
+        }
+
         // Location
         final QuickSettingsBasicTile locationTile
                 = new QuickSettingsBasicTile(mContext);

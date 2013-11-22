@@ -199,6 +199,25 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
         }
     }
 
+    private class TorchObserver extends ContentObserver {
+        public TorchObserver(Handler handler) {
+            super(handler);
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            onTorchStateChanged();
+        }
+
+        public void startObserving() {
+            final ContentResolver cr = mContext.getContentResolver();
+            cr.unregisterContentObserver(this);
+            cr.registerContentObserver(
+                    Settings.System.getUriFor(Settings.System.TORCH_STATE),
+                    false, this, mUserTracker.getCurrentUserId());
+        }
+    }
+
     /** Callback for changes to remote display routes. */
     private class RemoteDisplayRouteCallback extends MediaRouter.SimpleCallback {
         @Override
@@ -229,6 +248,7 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
     private final NextAlarmObserver mNextAlarmObserver;
     private final BugreportObserver mBugreportObserver;
     private final BrightnessObserver mBrightnessObserver;
+    private final TorchObserver mTorchObserver;
 
     private final MediaRouter mMediaRouter;
     private final RemoteDisplayRouteCallback mRemoteDisplayRouteCallback;
@@ -266,6 +286,10 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
     private QuickSettingsTileView mBluetoothTile;
     private RefreshCallback mBluetoothCallback;
     private BluetoothState mBluetoothState = new BluetoothState();
+
+    private QuickSettingsTileView mTorchTile;
+    private RefreshCallback mTorchCallback;
+    private State mTorchState = new State();
 
     private QuickSettingsTileView mBatteryTile;
     private RefreshCallback mBatteryCallback;
@@ -322,6 +346,8 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
         mBugreportObserver.startObserving();
         mBrightnessObserver = new BrightnessObserver(mHandler);
         mBrightnessObserver.startObserving();
+        mTorchObserver = new TorchObserver(mHandler);
+        mTorchObserver.startObserving();
 
         mMediaRouter = (MediaRouter)context.getSystemService(Context.MEDIA_ROUTER_SERVICE);
         rebindMediaRouterAsCurrentUser();
@@ -590,6 +616,36 @@ class QuickSettingsModel implements BluetoothStateChangeCallback,
     void refreshBluetoothTile() {
         if (mBluetoothTile != null) {
             onBluetoothStateChange(mBluetoothState.enabled);
+        }
+    }
+
+    // Torch
+    void addTorchTile(QuickSettingsTileView view, RefreshCallback cb) {
+        mTorchTile = view;
+        mTorchCallback = cb;
+
+        refreshTorchTile();
+    }
+    boolean deviceSupportsTorch() {
+        return true; //XXX
+    }
+    public void onTorchStateChanged() {
+        final ContentResolver cr = mContext.getContentResolver();
+        Resources r = mContext.getResources();
+        boolean value = Settings.System.getBoolean(cr, Settings.System.TORCH_STATE, false);
+        if (value) {
+            mTorchState.iconId = R.drawable.ic_qs_torch_on;
+            mTorchState.label = r.getString(R.string.quick_settings_torch_on_label);
+        }
+        else {
+            mTorchState.iconId = R.drawable.ic_qs_torch_off;
+            mTorchState.label = r.getString(R.string.quick_settings_torch_off_label);
+        }
+        mTorchCallback.refreshView(mTorchTile, mTorchState);
+    }
+    void refreshTorchTile() {
+        if (mTorchTile != null) {
+            onTorchStateChanged();
         }
     }
 
