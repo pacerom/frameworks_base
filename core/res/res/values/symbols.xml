@@ -692,6 +692,9 @@
   <java-symbol type="string" name="mobile_redirected_provisioning_url" />
   <java-symbol type="string" name="progress_nomediapresent" />
   <java-symbol type="string" name="quick_contacts_not_available" />
+  <java-symbol type="string" name="reboot" />
+  <java-symbol type="array" name="reboot_options" />
+  <java-symbol type="array" name="reboot_values" />
   <java-symbol type="string" name="reboot_safemode_confirm" />
   <java-symbol type="string" name="reboot_safemode_title" />
   <java-symbol type="string" name="relationTypeAssistant" />
@@ -1767,6 +1770,14 @@
   <!-- CM -->
   <java-symbol type="bool" name="config_smsSamsungCdmaAlternateMessageIDEncoding" />
   <java-symbol type="bool" name="config_samsung_stk" />
+
+  <!-- Power Menu -->
+  <java-symbol type="drawable" name="ic_lock_reboot" />
+  <java-symbol type="string" name="global_action_reboot" />
+  <java-symbol type="drawable" name="ic_lock_screenshot" />
+  <java-symbol type="string" name="global_action_screenshot" />
+  <java-symbol type="drawable" name="ic_lock_torch" />
+  <java-symbol type="string" name="global_action_torch" />
 
   <!-- Panel auto brightness -->
   <java-symbol type="integer" name="config_panelAutoBrightnessValue" />

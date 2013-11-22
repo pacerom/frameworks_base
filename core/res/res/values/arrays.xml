@@ -346,4 +346,16 @@
         <item>中文 (繁體)</item>
     </string-array>
 
+    <!-- reboot options -->
+    <string-array name="reboot_options">
+        <item>@string/reboot</item>
+        <item>@string/reboot_recovery</item>
+    </string-array>
+
+    <!-- reboot values -->
+    <string-array name="reboot_values">
+        <item></item>
+        <item>recovery</item>
+    </string-array>
+
 </resources>
