@@ -2296,11 +2296,13 @@ public class WifiStateMachine extends StateMachine {
         mLastNetworkId = WifiConfiguration.INVALID_NETWORK_ID;
     }
 
-    private void handleSupplicantConnectionLoss() {
+    private void handleSupplicantConnectionLoss(boolean killSupplicant) {
         /* Socket connection can be lost when we do a graceful shutdown
         * or when the driver is hung. Ensure supplicant is stopped here.
         */
-        mWifiMonitor.killSupplicant(mP2pSupported);
+        if (killSupplicant){
+            mWifiMonitor.killSupplicant(mP2pSupported);
+        }
         sendSupplicantConnectionChangedBroadcast(false);
         setWifiState(WIFI_STATE_DISABLED);
     }
@@ -2840,7 +2842,7 @@ public class WifiStateMachine extends StateMachine {
                     break;
                 case WifiMonitor.SUP_DISCONNECTION_EVENT:  /* Supplicant connection lost */
                     loge("Connection lost, restart supplicant");
-                    handleSupplicantConnectionLoss();
+                    handleSupplicantConnectionLoss(true);
                     handleNetworkDisconnect();
                     mSupplicantStateTracker.sendMessage(CMD_RESET_SUPPLICANT_STATE);
                     if (mP2pSupported) {
@@ -2905,13 +2907,13 @@ public class WifiStateMachine extends StateMachine {
                     break;
                 case WifiMonitor.SUP_DISCONNECTION_EVENT:
                     if (DBG) log("Supplicant connection lost");
-                    handleSupplicantConnectionLoss();
+                    handleSupplicantConnectionLoss(false);
                     transitionTo(mInitialState);
                     break;
                 case CMD_STOP_SUPPLICANT_FAILED:
                     if (message.arg1 == mSupplicantStopFailureToken) {
                         loge("Timed out on a supplicant stop, kill and proceed");
-                        handleSupplicantConnectionLoss();
+                        handleSupplicantConnectionLoss(true);
                         transitionTo(mInitialState);
                     }
                     break;
